@@ -11,39 +11,38 @@ module alu#(
         input logic [OPCODE_LENGTH-1:0]    Operation,
         output logic[DATA_WIDTH-1:0] ALUResult
         );
-    
+
         always_comb
         begin
             case(Operation)
             4'b0000:        // AND
                     ALUResult = SrcA & SrcB;
-            4'b0001:        // ADD
-                    ALUResult = $signed(SrcA) + $signed(SrcB);
-            4'b0010:        //OR
+	    4'b0001:	    // OR
 		    ALUResult = SrcA | SrcB;
-            4'b0011:        //SUB
-                    ALUResult = SrcA - SrcB;
-            4'b0100:        //SLLI
-                    ALUResult = SrcA << SrcB[4:0];
-            4'b0101:        //SRLI
-                    ALUResult = SrcA >> SrcB[4:0];
-            4'b0110:        //SRAI
-                    ALUResult = $signed(SrcA) >>> SrcB[4:0];
-            4'b0111:        //XOR
-                    ALUResult = SrcA ^ SrcB;
+            4'b0010:        // ADD
+                    ALUResult = SrcA + SrcB;
+	    4'b0011:	    // SUB
+		    ALUResult = SrcA - SrcB;
+	    4'b0100:	    // SLLI
+		    ALUResult = SrcA << SrcB[4:0];
+	    4'b0101:	    // SRLI
+		    ALUResult = SrcA >> SrcB[4:0];
+	    4'b0111:	    // SRAI
+		    ALUResult = $signed(SrcA) >>> SrcB[4:0];
             4'b1000:        // Equal
                     ALUResult = (SrcA == SrcB) ? 1 : 0;
-            4'b1001:        //LUI
-                    ALUResult = 32'b1;
-            4'b1010:        //less then
-                    ALUResult = (SrcA < SrcB) ? 1 : 0;
-            4'b1011:        //different then
-                    ALUResult = (SrcA != SrcB) ? 1 : 0;
-            4'b1100:        //greater or equal then
-                    ALUResult = (SrcA >= SrcB) ? 1 : 0;
+	    4'b1001:	    // XOR
+		    ALUResult = SrcA ^ SrcB;
+	    4'b1010:	    // LUI
+		    ALUResult = 32'b1;
+	    4'b1100:	    // less then
+		    ALUResult = (SrcA < SrcB) ? 1 : 0;
+	    4'b1101:	    // different then
+		    ALUResult = (SrcA != SrcB) ? 1 : 0;
+	    4'b1110:	    // greater then or equal
+		    ALUResult = (SrcA >= SrcB) ? 1 : 0;
             default:
                     ALUResult = 0;
             endcase
         end
 endmodule
-
