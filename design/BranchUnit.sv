@@ -6,10 +6,10 @@ module BranchUnit #(
     input logic [PC_W-1:0] Cur_PC,
     input logic [31:0] Imm,
     input logic Branch,
+    input logic jalrsel,
     input logic [31:0] AluResult,
-    input logic jalr_selec,
-    output logic [31:0] PC_Imm,
     output logic [31:0] Imm_OUT,
+    output logic [31:0] PC_Imm,
     output logic [31:0] PC_Four,
     output logic [31:0] BrPC,
     output logic PcSel
@@ -17,17 +17,17 @@ module BranchUnit #(
 
   logic Branch_Sel;
   logic [31:0] PC_Full;
-  logic [31:0] PC_ALU;
+  logic [31:0] PC_Alu;
 
   assign PC_Full = {23'b0, Cur_PC};
-  assign PC_ALU = PC_Full + AluResult; //prox comando da alu
+  assign PC_Alu = PC_Full + AluResult;
 
   assign Imm_OUT = Imm;
   assign PC_Imm = PC_Full + Imm;
   assign PC_Four = PC_Full + 32'b100;
-  assign Branch_Sel = (Branch && AluResult[0]) || (Branch && jalr_selec);  // 0:Branch is taken; 1:Branch is not taken
+  assign Branch_Sel = (Branch && AluResult[0]) || (Branch && jalrsel);  // 0:Branch is taken; 1:Branch is not taken
 
-  assign BrPC = (Branch_Sel) ? (jalr_selec) ? PC_ALU : PC_Imm : 32'b0;  // Branch -> PC+Imm   // Otherwise, BrPC value is not important
+  assign BrPC = (Branch_Sel) ? (jalrsel) ? PC_Alu : PC_Imm : 32'b0;  // Branch -> PC+Imm   // Otherwise, BrPC value is not important
   assign PcSel = Branch_Sel;  // 1:branch is taken; 0:branch is not taken(choose pc+4)
 
 endmodule
