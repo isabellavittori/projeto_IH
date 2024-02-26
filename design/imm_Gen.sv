@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module imm_Gen ( //extendendo o sinal de 32-bit para 64-bit
+module imm_Gen ( //extendendo o sinal de 32-bit
     input  logic [31:0] inst_code,
     output logic [31:0] Imm_out
 );
