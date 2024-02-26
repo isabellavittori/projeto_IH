@@ -1,4 +1,8 @@
 `timescale 1ns / 1ps
+//(ImmGen) has a 32-bit instruction as input that selects
+//a 12-bit field for load, store, and branch if equal that is
+//sign-extended into a 64-bit result appearing on the
+//output
 
 module imm_Gen ( //extendendo o sinal de 32-bit
     input  logic [31:0] inst_code,
